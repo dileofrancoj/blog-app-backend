@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/dileofrancoj/blog-app/models"
@@ -18,11 +17,10 @@ func GetPosts(ctx *gin.Context){
 func CreatePost(ctx *gin.Context) {
 	var post structs.Post
 	err := ctx.ShouldBindJSON(&post)
-	fmt.Println(&post)
 	if err!=nil {
 		log.Fatal(err.Error())
-		ctx.JSON(400, gin.H{
-			"message" : "Ocurrió un error",
+		ctx.JSON(500, gin.H{
+			"message" : "Ocurrió un error interno",
 		})
 		return
 	}
