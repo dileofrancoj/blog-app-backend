@@ -28,7 +28,7 @@ func Auth(ctx *gin.Context) {
 	}
 
 	ctx.JSON(200,gin.H{
-		"message" : "El usuario existe y tiene un ID: " + user.ID,
+		"message" : "El usuario existe y tiene un ID: " + user.ID, 
 	})
 
 }

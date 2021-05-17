@@ -16,6 +16,7 @@ func Routes(){
 		api.GET("/posts", controllers.GetPosts)
 		api.POST("/posts", controllers.CreatePost)
 		api.POST("/auth", controllers.Auth)
+		api.POST("/register", controllers.Register)
 	}
 	Router.Run(":"+PORT)
 }
