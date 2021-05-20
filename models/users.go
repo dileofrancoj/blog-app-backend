@@ -33,6 +33,19 @@ func IsValidUser(username string) (structs.User, bool) {
 
 }
 
+func Auth(username string, password string) (structs.User, bool) {
+	user, found := IsValidUser(username)
+	if found == false {
+		return user, false
+	}
+	result := utils.CompareHash(password, user.Password)
+	
+	if result == true {
+		return user,true
+	}
+	return user,false
+}
+
 func Register (user structs.User) (string, bool, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15 * time.Second)
 	defer cancel()

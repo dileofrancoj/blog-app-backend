@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/dileofrancoj/blog-app/controllers"
+	"github.com/dileofrancoj/blog-app/middlewares"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,8 +14,12 @@ func Routes(){
 	Router := gin.Default()
 	api := Router.Group("/api")
 	{
-		api.GET("/posts", controllers.GetPosts)
-		api.POST("/posts", controllers.CreatePost)
+		api.Use(middlewares.ValidateJWT())
+		{
+			api.GET("/posts", controllers.GetPosts)
+			api.POST("/posts", controllers.CreatePost)
+		}
+		
 		api.POST("/auth", controllers.Auth)
 		api.POST("/register", controllers.Register)
 	}
