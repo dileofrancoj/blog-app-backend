@@ -65,3 +65,18 @@ func CreatePost(ctx *gin.Context) {
 	}
 
 }
+
+func DeletePost(c *gin.Context) {
+	id := c.Param("id")
+	err := models.DeletePost(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H {
+			"message" : "Ocurrió un error interno",
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message" : "Posteo eliminado",
+		"id" : id,
+	})
+
+}

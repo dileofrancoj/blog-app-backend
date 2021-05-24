@@ -16,11 +16,12 @@ func Routes(){
 	{
 
 		api.POST("/posts", middlewares.ValidateJWT() ,controllers.CreatePost)
+		api.DELETE("/posts/:id", middlewares.ValidateJWT(), controllers.DeletePost)
 		api.GET("/posts", controllers.GetPosts)
 		api.GET("/posts/:id", controllers.GetPost)
 		api.POST("/auth", controllers.Auth)
 		api.POST("/register", controllers.Register)	
-		
+
 	}
 	Router.Run(":"+PORT)
 }

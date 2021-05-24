@@ -18,10 +18,12 @@ func CreatePost(p structs.Post) (bool,error){
 
 func GetPost(id string) (structs.Post,error) {
 	var post structs.Post
+
 	var db = config.MongoC.Database(constants.DB_NAME)
+	var collection = db.Collection(constants.POSTS_COLLECTION)
+
 	ctx, cancel := context.WithTimeout(context.Background(), 15 * time.Second)
 	defer cancel()
-	var collection = db.Collection(constants.POSTS_COLLECTION)
 
 	objID,_ := primitive.ObjectIDFromHex(id)
 	condition := bson.M{
@@ -32,6 +34,24 @@ func GetPost(id string) (structs.Post,error) {
 		return post, err
 	}
 	return post, nil
+
+}
+
+func DeletePost(id string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 15 * time.Second)
+	defer cancel()
+
+	var db = config.MongoC.Database(constants.DB_NAME)
+	collection := db.Collection(constants.POSTS_COLLECTION)
+
+	objID, _ := primitive.ObjectIDFromHex(id)
+	condition := bson.M{
+		"_id" : objID,
+	}
+
+	_,err := collection.DeleteOne(ctx,condition)
+
+	return err
 
 }
 
