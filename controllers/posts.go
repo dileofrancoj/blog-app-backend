@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"log"
+	"net/http"
 
 	"github.com/dileofrancoj/blog-app/models"
 	"github.com/dileofrancoj/blog-app/structs"
@@ -9,8 +10,16 @@ import (
 )
 
 func GetPosts(ctx *gin.Context){
-	ctx.JSON(200,gin.H {
-		"posts" : "all posts",
+
+	posts, err := models.GetPosts()
+	if err != nil {
+		ctx.JSON(500,gin.H {
+			"message" : "Ocurrió un error",
+		})
+
+	}
+	ctx.JSON(http.StatusOK,gin.H{
+		"posts":posts,
 	})
 }
 

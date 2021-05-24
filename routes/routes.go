@@ -14,12 +14,9 @@ func Routes(){
 	Router := gin.Default()
 	api := Router.Group("/api")
 	{
-		api.Use(middlewares.ValidateJWT())
-		{
-			api.GET("/posts", controllers.GetPosts)
-			api.POST("/posts", controllers.CreatePost)
-		}
-		
+
+		api.POST("/posts", middlewares.ValidateJWT() ,controllers.CreatePost)
+		api.GET("/posts", controllers.GetPosts)
 		api.POST("/auth", controllers.Auth)
 		api.POST("/register", controllers.Register)
 	}

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"log"
+	"net/http"
 
 	"github.com/dileofrancoj/blog-app/models"
 	"github.com/dileofrancoj/blog-app/structs"
@@ -30,7 +31,7 @@ func Auth(ctx *gin.Context) {
 
 
 	if found == false {
-		ctx.JSON(401,gin.H{
+		ctx.JSON(http.StatusUnauthorized,gin.H{
 			"message" : "Usuario o contraseña incorrecta",
 		})
 		return
@@ -47,7 +48,7 @@ func Auth(ctx *gin.Context) {
 	}
 
 
-	ctx.JSON(200,gin.H{
+	ctx.JSON(http.StatusOK,gin.H{
 		"jwt" : jwt,
 	})
 

@@ -13,13 +13,11 @@ func ValidateJWT () gin.HandlerFunc {
 		
 		_,_,_, err := utils.ValidateJWT(header)
 		if err != nil {
-			ctx.JSON(http.StatusUnauthorized,gin.H{
-				"message":"Unathorized",
-			})
-			return
+			ctx.AbortWithStatus(http.StatusUnauthorized)
+		} else {
+			ctx.Next()
 		}
 		
-		ctx.Next()
 
 	}
 }

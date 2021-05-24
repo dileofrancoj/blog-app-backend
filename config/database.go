@@ -21,6 +21,6 @@ func ConnectDatabase() *mongo.Client {
 		return client
 	}
 
-	log.Printf("Conectado a la base de datos")
+	log.Print("Conectado a la DB")
 	return client
 }
