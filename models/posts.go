@@ -16,6 +16,9 @@ func CreatePost(p structs.Post) (bool,error){
 	return true,nil
 }
 
+/*Implementacion interna*/
+func getPost(id string) {}
+
 func GetPost(id string) (structs.Post,error) {
 	var post structs.Post
 
@@ -28,6 +31,7 @@ func GetPost(id string) (structs.Post,error) {
 	objID,_ := primitive.ObjectIDFromHex(id)
 	condition := bson.M{
 		"_id" : objID,
+		"visible":true,
 	}
 	err := collection.FindOne(ctx,condition).Decode(&post)
 	if err != nil {
@@ -35,6 +39,27 @@ func GetPost(id string) (structs.Post,error) {
 	}
 	return post, nil
 
+}
+
+func UpdatePost(id string , post structs.Post) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 15 * time.Second)
+	defer cancel()
+
+	db := config.MongoC.Database(constants.DB_NAME)
+	collection := db.Collection(constants.POSTS_COLLECTION)
+
+	objID, _ := primitive.ObjectIDFromHex(id)
+	update := bson.M{
+		"$set" : bson.M{
+			"title":post.Title,
+			"body":post.Body,
+		},
+	}
+	condition := bson.M{
+		"_id" : objID,
+	}
+	_, err:= collection.UpdateOne(ctx,condition,update)
+	return err
 }
 
 func DeletePost(id string) error {
@@ -63,7 +88,7 @@ func GetPosts() (structs.Posts, error) {
 	defer cancel()
 	var posts structs.Posts
 
-	filter := bson.D{}
+	filter := bson.M{"visible":true}
 	cur,err := collection.Find(ctx,filter)
 
 	if err != nil {

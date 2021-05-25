@@ -80,3 +80,30 @@ func DeletePost(c *gin.Context) {
 	})
 
 }
+
+func UpdatePost(c *gin.Context){
+	id := c.Param("id")
+	var post structs.Post
+	err := c.ShouldBindJSON(&post)
+
+	if err != nil {
+		log.Fatal(err.Error())
+		c.JSON(500, gin.H{
+			"message" : "El formato de datos es inválido",
+		})
+		return
+	}
+
+	postErr := models.UpdatePost(id,post)
+	if postErr != nil {
+		c.JSON(http.StatusInternalServerError,gin.H{
+			"message" : "Ocurrió un error al actualizar el post",
+		})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":"Posteo actualizado",
+		"post":post,
+	})
+
+}
