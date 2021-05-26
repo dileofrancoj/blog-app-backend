@@ -14,14 +14,18 @@ func Routes(){
 	Router := gin.Default()
 	api := Router.Group("/api")
 	{
-
-		api.POST("/posts", middlewares.ValidateJWT() ,controllers.CreatePost)
-		api.DELETE("/posts/:id", middlewares.ValidateJWT(), controllers.DeletePost)
-		api.PUT("/posts/:id", middlewares.ValidateJWT(), controllers.UpdatePost)
 		api.GET("/posts", controllers.GetPosts)
 		api.GET("/posts/:id", controllers.GetPost)
 		api.POST("/auth", controllers.Auth)
 		api.POST("/register", controllers.Register)	
+
+		api.Use(middlewares.ValidateJWT())
+		{
+			api.POST("/posts" ,controllers.CreatePost)
+			api.DELETE("/posts/:id", controllers.DeletePost)
+			api.PUT("/posts/:id", controllers.UpdatePost)
+		}
+		
 
 	}
 	Router.Run(":"+PORT)

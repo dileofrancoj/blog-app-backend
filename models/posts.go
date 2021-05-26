@@ -26,7 +26,6 @@ func CreatePost(p structs.Post) (string,error){
 			"title":p.Title,
 			"body": p.Body,
 			"visible": true,
-			"created_at": time.Now(),
 		},
 	)
 

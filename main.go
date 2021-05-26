@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	godotenv.Load()
+	godotenv.Load(".env")
 	config.ConnectDatabase()
 	routes.Routes()
 
