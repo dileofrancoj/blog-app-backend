@@ -12,8 +12,31 @@ import (
 )
 
 /*CreatePost --> función para crear posteo*/
-func CreatePost(p structs.Post) (bool,error){
-	return true,nil
+func CreatePost(p structs.Post) (string,error){
+	
+	db := config.MongoC.Database(constants.DB_NAME)
+	collection := db.Collection(constants.POSTS_COLLECTION)
+
+	ctx, cancel := context.WithTimeout(context.Background() , 15 * time.Second)
+	defer cancel()
+
+	result, err := collection.InsertOne(
+		ctx,
+		bson.M{
+			"title":p.Title,
+			"body": p.Body,
+			"visible": true,
+			"created_at": time.Now(),
+		},
+	)
+
+	if err != nil {
+		return "", err
+	}
+	ObjId, _ := result.InsertedID.(primitive.ObjectID)
+	return ObjId.String(), nil
+
+
 }
 
 /*Implementacion interna*/

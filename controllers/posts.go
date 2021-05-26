@@ -49,22 +49,21 @@ func CreatePost(ctx *gin.Context) {
 		})
 		return
 	}
-	created,error := models.CreatePost(post)
+	ObjId,error := models.CreatePost(post)
 	if error !=nil {
 		log.Fatal(err.Error())
-		ctx.JSON(400, gin.H{
+		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"message" : "Ocurrió un error al crear el posteo",
 		})
 		return	
 	}
-	if created == true {
-		ctx.JSON(200, gin.H{
-			"message" : "Posteo creado correctamente",
-		})
-		return	
-	}
 
+	ctx.JSON(http.StatusCreated, gin.H{
+			"message" : "Posteo creado correctamente",
+			"id": ObjId,
+		})
 }
+
 
 func DeletePost(c *gin.Context) {
 	id := c.Param("id")
