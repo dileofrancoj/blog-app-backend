@@ -34,3 +34,6 @@ go run main.go
 
 - Subida de imágenes
 - Optimización de environments
+- Cambio de estructura aplicando interfaces
+- Mejorar la construcción de campos automáticos (fecha)
+- Mejorar la devolución de objetos (create post)
