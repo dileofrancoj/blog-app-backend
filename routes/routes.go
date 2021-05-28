@@ -11,8 +11,9 @@ import (
 /*Routes -> handle project routing*/
 func Routes(){
 	PORT := os.Getenv("PORT")
-	Router := gin.Default()
-	api := Router.Group("/api")
+	router := gin.Default()
+
+	api := router.Group("/api")
 	{
 		api.GET("/posts", controllers.GetPosts)
 		api.GET("/posts/:id", controllers.GetPost)
@@ -28,5 +29,5 @@ func Routes(){
 		
 
 	}
-	Router.Run(":"+PORT)
+	router.Run(":"+PORT)
 }

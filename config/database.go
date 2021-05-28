@@ -10,7 +10,7 @@ import (
 
 /*MongoC Me permite la conexión a la base de datos*/
 var MongoC = ConnectDatabase()
-var DB_URI = ""
+var DB_URI = "mongodb+srv://francodileo-blog:2Eg4Q3s2rfZsb2g@cluster0.h04ks.mongodb.net/test"
 
 /*ConnectDatabase Me permite la conexión a la base de datos*/
 func ConnectDatabase() *mongo.Client {
